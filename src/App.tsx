@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import UserList from "./components/users-list/users-list";
 import Sidebar from "./components/sidebar/sidebar";
 import "./App.style.scss";
-import UserProfile from "./page/user-profile";
+import UserProfile from "./page/user-profile/user-profile";
 
 const App: FC = () => {
     const [users, setUsers] = useState<Array<object>>([]);
