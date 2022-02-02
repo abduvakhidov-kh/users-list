@@ -1,0 +1,16 @@
+.sidebar {
+  position: sticky;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  padding: 15px;
+  background-color: #BDBDBD;
+  h3 {
+    margin: 0 0 10px;
+  }
+  .button_group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+}
