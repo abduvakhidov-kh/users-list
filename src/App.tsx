@@ -27,8 +27,6 @@ const App: FC = () => {
         <Sidebar/>
         <Routes>
           <Route path="/" element={<UserList userList={users} />} />
-        </Routes>
-        <Routes>
           <Route path={"/user/:id"} element={<UserProfile />} />
         </Routes>
       </div>

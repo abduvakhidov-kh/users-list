@@ -31,9 +31,7 @@ const UserProfile: FC = () => {
   const [user, setUser] = useState<Array<user>>([]);
   const [isEditing, setIsEditing] = useState<boolean>(false)
   const {id} = useParams();
-  const {register, handleSubmit} = useForm<Inputs>({
-    defaultValues: {name: user[0].name}
-  });
+  const {register, handleSubmit} = useForm<Inputs>();
 
   useEffect(() => {
     fetch("https://jsonplaceholder.typicode.com/users")
