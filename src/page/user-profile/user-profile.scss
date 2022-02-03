@@ -39,6 +39,9 @@
     padding: 2px 5px;
     border-radius: 5px;
     border: 1px solid #D8D8D8;
+    &:invalid {
+      border-color: red;
+    }
   }
 
   .user-profile__textarea {

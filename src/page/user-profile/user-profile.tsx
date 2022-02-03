@@ -2,6 +2,7 @@ import {FC, useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 import "./user-profile.scss";
 import Button from "../../components/button/button";
+import {useForm, SubmitHandler} from "react-hook-form";
 
 interface user {
   name: string;
@@ -13,10 +14,26 @@ interface user {
   website: string;
 }
 
+interface Inputs {
+  name: string;
+  id: number;
+  username: string;
+  email: string;
+  phone: string;
+  website: string;
+  street: string;
+  city: string,
+  zipcode: string;
+  comments: string;
+}
+
 const UserProfile: FC = () => {
   const [user, setUser] = useState<Array<user>>([]);
   const [isEditing, setIsEditing] = useState<boolean>(false)
   const {id} = useParams();
+  const {register, handleSubmit} = useForm<Inputs>({
+    defaultValues: {name: user[0].name}
+  });
 
   useEffect(() => {
     fetch("https://jsonplaceholder.typicode.com/users")
@@ -24,24 +41,31 @@ const UserProfile: FC = () => {
         return response.json();
       })
       .then((data) => {
-        setUser([...data]);
+        setUser([...data.filter((item: user) => item.id === Number(id))]);
       })
       .catch(error => console.log("error", error))
-  }, [])
+  })
 
-  console.log(user);
+  const onSubmit: SubmitHandler<Inputs> = data => {
+    alert(JSON.stringify(data));
+  };
+
   return (
     <div className="user-profile">
       <header className="user-profile__header">
         <h2>Профиль пользователя:</h2>
         <div onClick={() => {
-          setIsEditing(true)
+          if (!isEditing) {
+            setIsEditing(true);
+          } else {
+            setIsEditing(false);
+          }
         }}>
           <Button>Редактировать</Button>
         </div>
       </header>
-      {user.filter((item) => item.id === Number(id)).map(item => (
-        <form className="user-profile__form">
+      {user.map(item => (
+        <form className="user-profile__form" onSubmit={handleSubmit(onSubmit)}>
           <fieldset>
             <div className="user-profile__item">
               <label htmlFor="name">Name</label>
@@ -49,7 +73,10 @@ const UserProfile: FC = () => {
                 id="name"
                 type="text"
                 className="user-profile__input"
-                {...(isEditing ? {value: item.name} : {placeholder: item.name})}
+                defaultValue={item.name}
+                required
+                {...register("name", )}
+                {...(isEditing ? {disabled: false} : {disabled: true})}
               />
             </div>
             <div className="user-profile__item">
@@ -57,7 +84,10 @@ const UserProfile: FC = () => {
               <input
                 id="username"
                 type="text"
-                {...(isEditing ? {value: item.username} : {placeholder: item.username})}
+                defaultValue={item.username}
+                required
+                {...register("username", )}
+                {...(isEditing ? {disabled: false} : {disabled: true})}
                 className="user-profile__input"
               />
             </div>
@@ -66,7 +96,10 @@ const UserProfile: FC = () => {
               <input
                 id="email"
                 type="text"
-                {...(isEditing ? {value: item.email} : {placeholder: item.email})}
+                defaultValue={item.email}
+                required
+                {...register("email", )}
+                {...(isEditing ? {disabled: false} : {disabled: true})}
                 className="user-profile__input"
               />
             </div>
@@ -75,7 +108,10 @@ const UserProfile: FC = () => {
               <input
                 id="street"
                 type="text"
-                {...(isEditing ? {value: item.address.street} : {placeholder: item.address.street})}
+                defaultValue={item.address.street}
+                required
+                {...register("street")}
+                {...(isEditing ? {disabled: false} : {disabled: true})}
                 className="user-profile__input"
               />
             </div>
@@ -84,7 +120,10 @@ const UserProfile: FC = () => {
               <input
                 id="city"
                 type="text"
-                {...(isEditing ? {value: item.address.city} : {placeholder: item.address.city})}
+                defaultValue={item.address.city}
+                required
+                {...register("city")}
+                {...(isEditing ? {disabled: false} : {disabled: true})}
                 className="user-profile__input"
               />
             </div>
@@ -93,7 +132,10 @@ const UserProfile: FC = () => {
               <input
                 id="zipcode"
                 type="text"
-                {...(isEditing ? {value: item.address.zipcode} : {placeholder: item.address.zipcode})}
+                defaultValue={item.address.zipcode}
+                required
+                {...register("zipcode")}
+                {...(isEditing ? {disabled: false} : {disabled: true})}
                 className="user-profile__input"
               />
             </div>
@@ -102,7 +144,10 @@ const UserProfile: FC = () => {
               <input
                 id="phone"
                 type="text"
-                {...(isEditing ? {value: item.phone} : {placeholder: item.phone})}
+                defaultValue={item.phone}
+                required
+                {...register("phone")}
+                {...(isEditing ? {disabled: false} : {disabled: true})}
                 className="user-profile__input"
               />
             </div>
@@ -111,7 +156,10 @@ const UserProfile: FC = () => {
               <input
                 id="website"
                 type="text"
-                {...(isEditing ? {value: item.website} : {placeholder: item.website})}
+                defaultValue={item.website}
+                required
+                {...register("website")}
+                {...(isEditing ? {disabled: false} : {disabled: true})}
                 className="user-profile__input"
               />
             </div>
@@ -119,6 +167,8 @@ const UserProfile: FC = () => {
               <label htmlFor="comment">Comment</label>
               <textarea
                 id="comment"
+                {...register("comments")}
+                {...(isEditing ? {disabled: false} : {disabled: true})}
                 className="user-profile__textarea"
                 rows={5}
               />
