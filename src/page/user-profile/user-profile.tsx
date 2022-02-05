@@ -43,7 +43,7 @@ const UserProfile: FC = () => {
         setUser([...data.filter((item: user) => item.id === Number(id))]);
       })
       .catch(error => console.log("error", error))
-  }, [])
+  }, [id])
 
   const onSubmit: SubmitHandler<Inputs> = data => {
     alert(JSON.stringify(data));
