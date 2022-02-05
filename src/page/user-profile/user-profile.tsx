@@ -4,12 +4,13 @@ import "./user-profile.scss";
 import Button from "../../components/button/button";
 import {useForm, SubmitHandler} from "react-hook-form";
 
-interface user {
+export interface user {
   name: string;
   id: number;
   username: string;
   email: string;
   address: { street: string; city: string, zipcode: string };
+  company: { name: string };
   phone: string;
   website: string;
 }
@@ -42,7 +43,7 @@ const UserProfile: FC = () => {
         setUser([...data.filter((item: user) => item.id === Number(id))]);
       })
       .catch(error => console.log("error", error))
-  })
+  }, [])
 
   const onSubmit: SubmitHandler<Inputs> = data => {
     alert(JSON.stringify(data));
@@ -63,7 +64,7 @@ const UserProfile: FC = () => {
         </div>
       </header>
       {user.map(item => (
-        <form className="user-profile__form" onSubmit={handleSubmit(onSubmit)}>
+        <form className="user-profile__form" onSubmit={handleSubmit(onSubmit)} key={item.id}>
           <fieldset>
             <div className="user-profile__item">
               <label htmlFor="name">Name</label>
@@ -73,7 +74,7 @@ const UserProfile: FC = () => {
                 className="user-profile__input"
                 defaultValue={item.name}
                 required
-                {...register("name", )}
+                {...register("name",)}
                 {...(isEditing ? {disabled: false} : {disabled: true})}
               />
             </div>
